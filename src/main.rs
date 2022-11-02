@@ -1,12 +1,16 @@
 use clap::Parser;
 
-/// Find a good number of dice for your word list
+/// Figure out how to efficiently assign dice calues to each word in a word list.
 #[derive(Parser, Debug)]
 #[clap(version, about, name = "dice-tailor")]
 struct Args {
-    /// List length
+    /// Length of given list
     #[clap(short = 'l', long = "length")]
     list_length: i32,
+
+    /// Fix number of dice sides
+    #[clap(short = 's', long = "sides")]
+    sides: Option<i32>,
 }
 
 fn main() {
@@ -18,11 +22,28 @@ fn main() {
 
     let mut lowest_loss: i32 = i32::MAX;
     let mut best_sides_to_use = 0;
-    for sides in 2..36 {
-        let this_loss = get_loss(sides, list_length);
-        if this_loss < lowest_loss {
-            lowest_loss = this_loss;
-            best_sides_to_use = sides;
+
+    match opt.sides {
+        Some(sides) => {
+            // Fixed number of dice sides provided by user, so only need to check
+            // that amount of dice sides
+            let this_loss = get_loss(sides, list_length);
+            if this_loss < lowest_loss {
+                lowest_loss = this_loss;
+                best_sides_to_use = sides;
+            }
+        }
+        None => {
+            // No number of dice sides given by user, so we'll check all dice from 2 sides
+            // to 36 sides and see which results in the lowest loss of words
+            // from the given list.
+            for sides in 2..36 {
+                let this_loss = get_loss(sides, list_length);
+                if this_loss < lowest_loss {
+                    lowest_loss = this_loss;
+                    best_sides_to_use = sides;
+                }
+            }
         }
     }
     let cut_list_length = list_length - lowest_loss;
