@@ -17,7 +17,7 @@ fn main() {
     let optimal_number_of_dice = log_base(best_sides_to_use, cut_list_length as f64);
     if lowest_loss == 0 {
         println!(
-            "Can keep list at {}. Can use {} {}-sided dice.",
+            "Can keep list at {}. Use {} {}-sided dice.",
             list_length, optimal_number_of_dice, best_sides_to_use
         );
     } else {
