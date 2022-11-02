@@ -4,13 +4,13 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[clap(version, about, name = "dice-tailor")]
 struct Args {
-    /// Length of given list
-    #[clap(short = 'l', long = "length")]
-    list_length: i32,
-
-    /// Fix number of dice sides
+    /// Fix number of dice sides (Optional)
     #[clap(short = 's', long = "sides")]
     sides: Option<i32>,
+
+    /// Length of initial list
+    #[clap(name = "Length of Initial List", required = true)]
+    list_length: i32,
 }
 
 fn main() {
