@@ -1,6 +1,6 @@
 use clap::Parser;
 
-/// Figure out how to efficiently assign dice calues to each word in a word list.
+/// Figure out how to efficiently assign dice values to each word in a word list.
 #[derive(Parser, Debug)]
 #[clap(version, about, name = "dice-tailor")]
 struct Args {
