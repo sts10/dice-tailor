@@ -2,7 +2,7 @@ fn main() {
     assert_eq!(get_loss(6, 8000), 8000 - 7776);
     assert_eq!(log_base(6, 7776.0), 5.0);
 
-    let list_length: i32 = 17576;
+    let list_length: i32 = 7776;
 
     let mut lowest_loss: i32 = i32::MAX;
     let mut best_sides_to_use = 0;
