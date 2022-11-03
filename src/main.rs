@@ -1,10 +1,10 @@
 use clap::Parser;
 
-/// Figure out how to efficiently assign dice values to each word in a word list.
+/// Fit dice values to each word in a word list.
 #[derive(Parser, Debug)]
 #[clap(version, about, name = "dice-tailor")]
 struct Args {
-    /// Fix number of dice sides (Optional)
+    /// Set as a constant the number of dice sides (Optional)
     #[clap(short = 's', long = "sides")]
     sides: Option<i32>,
 
