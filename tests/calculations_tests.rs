@@ -9,5 +9,6 @@ mod calculation_tests {
     #[test]
     fn can_calculate_a_word_list_loss_amount() {
         assert_eq!(get_loss(6, 8000), 8000 - 7776);
+        assert_eq!(get_loss(6, 7776), 0);
     }
 }
