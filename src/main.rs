@@ -104,6 +104,8 @@ fn make_plot(sides: Option<i32>) {
             .y_labels(10)
             .x_label_formatter(&|v| format!("{:.1}", v))
             .y_label_formatter(&|v| format!("{:.1}", v))
+            .x_desc("Word list length")
+            .y_desc("Words needed to cut to fit dice sides")
             .draw()
             .unwrap();
 
@@ -115,9 +117,16 @@ fn make_plot(sides: Option<i32>) {
             .unwrap()
             .label(sides.to_string());
     };
+
     let common_drawing_area =
         BitMapBackend::new("images/common_dice.png", (2048, 1536)).into_drawing_area();
     common_drawing_area.fill(&WHITE).unwrap();
+    let common_drawing_area = common_drawing_area
+        .titled(
+            "Word list 'fit' for 6-, 8-, and 12-sides dice",
+            ("sans-serif", 60),
+        )
+        .unwrap();
 
     let mut common_chart = ChartBuilder::on(&common_drawing_area)
         .margin(5)
@@ -130,6 +139,8 @@ fn make_plot(sides: Option<i32>) {
         .y_labels(10)
         .x_label_formatter(&|v| format!("{:.1}", v))
         .y_label_formatter(&|v| format!("{:.1}", v))
+        .x_desc("Word list length")
+        .y_desc("Words needed to cut to fit dice sides")
         .draw()
         .unwrap();
 
@@ -139,24 +150,43 @@ fn make_plot(sides: Option<i32>) {
             &RED,
         ))
         .unwrap()
-        .label("6");
+        .label("6-sided")
+        .legend(|(x, y)| PathElement::new(vec![(x, y), (x + 20, y)], &RED));
 
     common_chart
         .draw_series(LineSeries::new(
             (5..20000).map(|x| (x, get_loss(8, x))),
             &BLUE,
         ))
-        .unwrap();
+        .unwrap()
+        .label("8-sided")
+        .legend(|(x, y)| PathElement::new(vec![(x, y), (x + 20, y)], &BLUE));
+
     common_chart
         .draw_series(LineSeries::new(
             (5..20000).map(|x| (x, get_loss(12, x))),
             &GREEN,
         ))
+        .unwrap()
+        .label("12-sided")
+        .legend(|(x, y)| PathElement::new(vec![(x, y), (x + 20, y)], &GREEN));
+
+    common_chart
+        .configure_series_labels()
+        .background_style(&RGBColor(128, 128, 128))
+        .draw()
         .unwrap();
 
     let all_dice_drawing_area =
         BitMapBackend::new("images/all_dice.png", (2048, 1536)).into_drawing_area();
     all_dice_drawing_area.fill(&WHITE).unwrap();
+
+    let all_dice_drawing_area = all_dice_drawing_area
+        .titled(
+            "Word list 'fit' for dice of sides 2 to 36",
+            ("sans-serif", 60),
+        )
+        .unwrap();
 
     let mut all_chart = ChartBuilder::on(&all_dice_drawing_area)
         .margin(5)
@@ -170,6 +200,8 @@ fn make_plot(sides: Option<i32>) {
         .y_labels(10)
         .x_label_formatter(&|v| format!("{:.1}", v))
         .y_label_formatter(&|v| format!("{:.1}", v))
+        .x_desc("Word list length")
+        .y_desc("Words needed to cut to fit dice sides")
         .draw()
         .unwrap();
     for sides in 2..36 {
