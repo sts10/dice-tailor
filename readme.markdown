@@ -2,45 +2,62 @@
 
 Find out how many of what kinds of dice best suit your word list. 
 
-By default searches through die of sides numbering 2 through 36. Optionally, you can fix the number of sides with option `-s`.
-
 ## Installation
 
 ### Using Rust and cargo (suggested method)
 1. [Install Rust](https://www.rust-lang.org/tools/install) if you haven't already
 2. Run: `cargo install --git https://github.com/sts10/dice-tailor --branch main`
 
-Once installed, the executable will be `dice-tailor`. You should then be able to run `dice-tailor --help`.
+Once installed, the executable will be `dicetailor`. You should then be able to run `dicetailor --help`.
 
 ## Usage
 
 ```text
 USAGE:
-    dice-tailor [OPTIONS] <Length of Initial List>
-
-ARGS:
-    <Length of Initial List>    Length of initial list
+    dicetailor <SUBCOMMAND>
 
 OPTIONS:
-    -h, --help             Print help information
-    -s, --sides <SIDES>    Set as a constant the number of dice sides (Optional)
-    -V, --version          Print version information
+    -h, --help       Print help information
+    -V, --version    Print version information
+
+SUBCOMMANDS:
+    draw       Draw charts
+    help       Print this message or the help of the given subcommand(s)
+    measure    Given list length, recommend a "fit"
 ```
 
 ## Examples
 
+### Drawing 
+
+Dice Tailor can draw a number of line charts related to how dice and word list fit together. 
+
+The two charts that Dice Tailor is hard-coded to produce plot how word list lengths (X-axis) fit to word list cuts necessary to fit to a dice configuration. 
+
+**Common die fits** (6,8,12)
+
+![Common dice fits](images/common_dice.png)
+
+**All dice 2 to 36 sides**
+![All dice fits](images/all_dice.png)
+
+To create these charts in an `./images/` directory, run `dicetailor draw`
+
+If you want to investigate a specific die, say one with 11 sides, you can run `dicetailor draw -s 11`.
+
+### Measuring 
 Let's say you have a word list of 7,900 words. And you want to print a corresponding dice roll for each word. 
 
-Running `dice-tailor 7900` prints:
+Running `dicetailor measure 7900` prints:
 ```text
 Recommend cutting list length to 7776. Can use 5 6-sided dice.
 ```
 
-But Dice Tailor won't always recommend using 6-sided dice. Let's say your word list is 8,003 words. Running `dice-tailor 8003` prints
+But Dice Tailor won't always recommend using 6-sided dice. Let's say your word list is 8,003 words. Running `dicetailor measure 8003` prints
 
 `Recommend cutting list length to 8000. Can use 3 20-sided dice.`
 
-If you don't expect your users to have 20-sided dice available, you can "force" a 6-sided die by running `dice-tailor -s 6 8003`. Dice Tailor will then print: 
+If you don't expect your users to have 20-sided dice available, you can "force" a 6-sided die by running `dicetailor measure -s 6 8003`. Dice Tailor will then print: 
 
 `Recommend cutting list length to 7776. Can use 5 6-sided dice.`
 

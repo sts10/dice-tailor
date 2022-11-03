@@ -1,32 +1,50 @@
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use dicetailor::*;
 
 /// Fit dice values to each word in a word list.
-#[derive(Parser, Debug)]
+#[derive(Parser)]
 #[clap(version, about, name = "dice-tailor")]
-struct Args {
-    /// Set as a constant the number of dice sides (Optional)
-    #[clap(short = 's', long = "sides")]
-    sides: Option<i32>,
+struct Cli {
+    #[clap(subcommand)]
+    command: Commands,
+}
 
-    /// Length of initial list
-    #[clap(name = "Length of Initial List", required = true)]
-    list_length: i32,
+#[derive(Subcommand)]
+enum Commands {
+    /// Given list length, recommend a "fit"
+    Measure {
+        /// Set as a constant the number of dice sides (Optional)
+        #[clap(short = 's', long = "sides")]
+        sides: Option<i32>,
+
+        /// Length of initial list
+        #[clap(name = "Length of Initial List", required = true)]
+        list_length: i32,
+    },
+
+    /// Draw charts
+    Draw {
+        /// Set as a constant the number of dice sides (Optional)
+        #[clap(short = 's', long = "sides")]
+        sides: Option<i32>,
+    },
 }
 
 fn main() {
-    assert_eq!(get_loss(6, 8000), 8000 - 7776);
-    assert_eq!(log_base(6, 7776.0), 5.0);
+    let cli = Cli::parse();
+    match &cli.command {
+        Commands::Measure { sides, list_length } => measure(*list_length, *sides),
+        Commands::Draw { sides } => make_plot(*sides),
+    }
+}
 
-    make_plot();
-
-    let opt = Args::parse();
-    let list_length: i32 = opt.list_length;
+fn measure(list_length: i32, sides: Option<i32>) {
+    // let list_length: i32 = opt.list_length;
 
     let mut lowest_loss: i32 = i32::MAX;
     let mut best_sides_to_use = 0;
 
-    match opt.sides {
+    match sides {
         Some(sides) => {
             // Fixed number of dice sides provided by user, so only need to check
             // that amount of dice sides
@@ -67,7 +85,36 @@ fn main() {
 }
 
 use plotters::prelude::*;
-fn make_plot() {
+fn make_plot(sides: Option<i32>) {
+    if let Some(sides) = sides {
+        let file_name = format!("images/{}-sided-die.png", sides);
+        let specified_drawing_area =
+            BitMapBackend::new(&file_name, (2048, 1536)).into_drawing_area();
+        specified_drawing_area.fill(&WHITE).unwrap();
+
+        let max_number_of_words = 27000;
+        let mut specified_chart = ChartBuilder::on(&specified_drawing_area)
+            .margin(5)
+            .set_all_label_area_size(100)
+            .build_cartesian_2d(0..max_number_of_words, 0..max_number_of_words)
+            .unwrap();
+        specified_chart
+            .configure_mesh()
+            .x_labels(20)
+            .y_labels(10)
+            .x_label_formatter(&|v| format!("{:.1}", v))
+            .y_label_formatter(&|v| format!("{:.1}", v))
+            .draw()
+            .unwrap();
+
+        specified_chart
+            .draw_series(LineSeries::new(
+                (5..max_number_of_words).map(|x| (x, get_loss(sides, x))),
+                &RED,
+            ))
+            .unwrap()
+            .label(sides.to_string());
+    };
     let common_drawing_area =
         BitMapBackend::new("images/common_dice.png", (2048, 1536)).into_drawing_area();
     common_drawing_area.fill(&WHITE).unwrap();
