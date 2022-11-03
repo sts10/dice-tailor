@@ -65,7 +65,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "dice-tailor"
+name = "dicetailor"
 version = "0.1.0"
 dependencies = [
  "clap",
