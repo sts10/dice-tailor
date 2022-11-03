@@ -4,12 +4,17 @@ Find out how many of what kinds of dice best suit your word list.
 
 By default searches through die of sides numbering 2 through 36. Optionally, you can fix the number of sides with option `-s`.
 
+## Installation
+
+### Using Rust and cargo (suggested method)
+1. [Install Rust](https://www.rust-lang.org/tools/install) if you haven't already
+2. Run: `cargo install --git https://github.com/sts10/dice-tailor --branch main`
+
+Once installed, the executable will be `dice-tailor`. You should then be able to run `dice-tailor --help`.
+
 ## Usage
 
 ```text
-dice-tailor 0.1.0
-Figure out how to efficiently assign dice calues to each word in a word list
-
 USAGE:
     dice-tailor [OPTIONS] <Length of Initial List>
 
@@ -18,7 +23,7 @@ ARGS:
 
 OPTIONS:
     -h, --help             Print help information
-    -s, --sides <SIDES>    Fix number of dice sides (Optional)
+    -s, --sides <SIDES>    Set as a constant the number of dice sides (Optional)
     -V, --version          Print version information
 ```
 
