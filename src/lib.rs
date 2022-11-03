@@ -1,6 +1,6 @@
 pub fn get_loss(dice_sides: i32, list_length: i32) -> i32 {
     let mut loss = 0;
-    for n in 0..100 {
+    for n in 1..100 {
         if dice_sides.pow(n) > list_length {
             // We went over the list length.
             // Go back one n

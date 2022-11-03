@@ -18,6 +18,8 @@ fn main() {
     assert_eq!(get_loss(6, 8000), 8000 - 7776);
     assert_eq!(log_base(6, 7776.0), 5.0);
 
+    make_plot();
+
     let opt = Args::parse();
     let list_length: i32 = opt.list_length;
 
@@ -61,5 +63,74 @@ fn main() {
             optimal_number_of_dice,
             best_sides_to_use
         );
+    }
+}
+
+use plotters::prelude::*;
+fn make_plot() {
+    let common_drawing_area =
+        BitMapBackend::new("images/common_dice.png", (2048, 1536)).into_drawing_area();
+    common_drawing_area.fill(&WHITE).unwrap();
+
+    let mut common_chart = ChartBuilder::on(&common_drawing_area)
+        .margin(5)
+        .set_all_label_area_size(100)
+        .build_cartesian_2d(0..20000, 0..20000)
+        .unwrap();
+    common_chart
+        .configure_mesh()
+        .x_labels(20)
+        .y_labels(10)
+        .x_label_formatter(&|v| format!("{:.1}", v))
+        .y_label_formatter(&|v| format!("{:.1}", v))
+        .draw()
+        .unwrap();
+
+    common_chart
+        .draw_series(LineSeries::new(
+            (5..20000).map(|x| (x, get_loss(6, x))),
+            &RED,
+        ))
+        .unwrap()
+        .label("6");
+
+    common_chart
+        .draw_series(LineSeries::new(
+            (5..20000).map(|x| (x, get_loss(8, x))),
+            &BLUE,
+        ))
+        .unwrap();
+    common_chart
+        .draw_series(LineSeries::new(
+            (5..20000).map(|x| (x, get_loss(12, x))),
+            &GREEN,
+        ))
+        .unwrap();
+
+    let all_dice_drawing_area =
+        BitMapBackend::new("images/all_dice.png", (2048, 1536)).into_drawing_area();
+    all_dice_drawing_area.fill(&WHITE).unwrap();
+
+    let mut all_chart = ChartBuilder::on(&all_dice_drawing_area)
+        .margin(5)
+        .set_all_label_area_size(100)
+        .build_cartesian_2d(0..20000, 0..20000)
+        .unwrap();
+
+    all_chart
+        .configure_mesh()
+        .x_labels(20)
+        .y_labels(10)
+        .x_label_formatter(&|v| format!("{:.1}", v))
+        .y_label_formatter(&|v| format!("{:.1}", v))
+        .draw()
+        .unwrap();
+    for sides in 2..36 {
+        all_chart
+            .draw_series(LineSeries::new(
+                (5..20000).map(|x| (x, get_loss(sides, x))),
+                &BLACK,
+            ))
+            .unwrap();
     }
 }
