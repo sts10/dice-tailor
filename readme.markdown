@@ -29,9 +29,11 @@ Options:
 
 ### Drawing 
 
-Dice Tailor can draw a number of line charts related to how dice and word list fit together. 
+Dice Tailor can draw a number of line charts related to how dice and word list fit together. These charts show how word list lengths (X-axis) fit to word list cuts necessary to fit to a dice configuration. 
 
-The two charts that Dice Tailor is hard-coded to produce plot how word list lengths (X-axis) fit to word list cuts necessary to fit to a dice configuration. 
+If Dice Tailor isn't given a number of sides to draw, it will draw a few common charts. All charts are hard-coded to print to a `./images/` directory. If no such directory exists, Dice Tailor will create one before printing any charts.
+
+#### Example charts
 
 **Common die fits** (6,8,12)
 
@@ -54,11 +56,11 @@ Recommend cutting list length to 7776. Can use 5 6-sided dice.
 
 But Dice Tailor won't always recommend using 6-sided dice. Let's say your word list is 8,003 words. Running `dicetailor measure 8003` prints
 
-`Recommend cutting list length to 8000. Can use 3 20-sided dice.`
+`Recommend cutting list length to 8000. Can then use 3 20-sided dice.`
 
-If you don't expect your users to have 20-sided dice available, you can "force" a 6-sided die by running `dicetailor measure -s 6 8003`. Dice Tailor will then print: 
+If you don't expect your users to have 20-sided dice available, you can "force" Dice Tailor to give you a recommendation using 6-sided dice by running `dicetailor measure -s 6 8003`. Dice Tailor will then print: 
 
-`Recommend cutting list length to 7776. Can use 5 6-sided dice.`
+`Recommend cutting list length to 7776. Can then use 5 6-sided dice.`
 
 ## Actually printing the corresponding dice roll values 
 

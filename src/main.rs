@@ -19,7 +19,7 @@ enum Commands {
         sides: Option<i32>,
 
         /// Length of initial list
-        #[clap(name = "Length of Initial List", required = true)]
+        #[clap(name = "Length of initial list", required = true)]
         list_length: i32,
     },
 
