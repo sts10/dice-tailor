@@ -4,6 +4,6 @@ version = "0.1.5"
 edition = "2021"
 
 [dependencies]
-# clap = { version = "3.0.14", features = ["derive"] }
-clap = { version = "3.2", features = ["derive"] }
-plotters = "0.3"
+# clap = { version = "3.2", features = ["derive"] }
+clap = { version = "4.2.5", features = ["derive"] }
+plotters = "0.3.4"

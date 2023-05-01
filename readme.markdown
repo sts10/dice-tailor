@@ -13,17 +13,16 @@ Once installed, the executable will be `dicetailor`. You should then be able to 
 ## Usage
 
 ```text
-USAGE:
-    dicetailor <SUBCOMMAND>
+Usage: dicetailor <COMMAND>
 
-OPTIONS:
-    -h, --help       Print help information
-    -V, --version    Print version information
+Commands:
+  measure  Given list length, recommend a "fit"
+  draw     Draw charts
+  help     Print this message or the help of the given subcommand(s)
 
-SUBCOMMANDS:
-    draw       Draw charts
-    help       Print this message or the help of the given subcommand(s)
-    measure    Given list length, recommend a "fit"
+Options:
+  -h, --help     Print help
+  -V, --version  Print version
 ```
 
 ## Examples
@@ -46,7 +45,7 @@ To create these charts in an `./images/` directory, run `dicetailor draw`
 If you want to investigate a specific die, say one with 11 sides, you can run `dicetailor draw -s 11`.
 
 ### Measuring 
-Let's say you have a word list of 7,900 words. And you want to print a corresponding dice roll for each word. 
+Let's say you have a word list of 7,900 words, and you want to print a corresponding dice roll for each word. 
 
 Running `dicetailor measure 7900` prints:
 ```text
